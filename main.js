@@ -1,11 +1,4 @@
 
-var TargetArray = [
-  "つむりんママ", 
-  "スライム",
-  "ぶちスライム",
-  "スライムナイト"
-  ];
-
 
 var toolsArray = ItemArray.concat(FoodsArray, MaterialArray);
 var battleArray = SkillArray.concat(SpecialArray, ChanseArray);
