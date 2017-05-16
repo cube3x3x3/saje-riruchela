@@ -23,7 +23,7 @@ function outputUL(outputArea, list){
   newUL.setAttribute("id", outputArea.id);
   for (var i = 0; i < list.length; i++){
     var li = document.createElement("li");
-    li.innerHTML = list[i];
+    li.textContent = list[i];
     newUL.appendChild(li);
   }
   document.body.replaceChild(newUL, outputArea);
