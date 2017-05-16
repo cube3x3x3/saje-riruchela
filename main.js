@@ -18,21 +18,27 @@ var item = {
   }
 };
 
+function outputUL(outputArea, list){
+  var liText = "<li>" + list.join("<li>");
+  outputArea.innerHTML += "<ul>" + liText + "</ul>";
+}
+
 function itemSearch(outputArea, inputReg, omitKanji){
   window.alert(inputReg.value);
   window.alert(omitKanji);
   if (!inputReg.value){return;}
+  outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
+
   re = new RegExp(inputReg.value);
-  
-  var ansText = inputReg.value + "<ul>";
-  
+  var results = [];
+
   for (var i = 0; i < targetArray.length; i++){
     item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
-        ansText += "<li>" + item.name;
+        results.push(item.name);
       }
     }
   }
-  outputArea.innerHTML = "</ul>" + ansText;
+  outputUL(outputArea, results);
 }
