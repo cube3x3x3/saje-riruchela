@@ -19,15 +19,21 @@ var item = {
 };
 
 function outputUL(outputArea, list){
-  var liText = "<li>" + list.join("<li>");
-  outputArea.innerHTML += "<ul>" + liText + "</ul>";
+  var newUL = document.createElement("ul");
+  newUL.setAttribute("id", outputArea.id);
+  for (var i = 0; i < list.length; i++){
+    var li = document.createElement("li");
+    li.innerHTML = list[i];
+    newUL.appendChild(li);
+  }
+  document.body.replaceChild(newUL, outputArea);
 }
 
 function itemSearch(outputArea, inputReg, omitKanji){
   window.alert(inputReg.value);
   window.alert(omitKanji);
   if (!inputReg.value){return;}
-  outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
+  //outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
 
   re = new RegExp(inputReg.value);
   var results = [];
