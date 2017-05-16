@@ -7,10 +7,10 @@ var TargetArray = [
   ];
 
 
-var testToolsArray = testItemArray.concat(testFoodsArray, testMaterialArray);
-var testBattleArray = testSkillArray.concat(testSpecialArray, testChanseArray);
-var testDressArray = testArmsArray.concat(testAccessoryArray);
-var testTargetArray = testMonsterArray.concat(testMagicArray, testToolsArray, testBattleArray, testDressArray, testPlaceArray, testfacilitiesArray);
+var toolsArray = ItemArray.concat(FoodsArray, MaterialArray);
+var battleArray = SkillArray.concat(SpecialArray, ChanseArray);
+var dressArray = ArmsArray.concat(AccessoryArray);
+var targetArray = MonsterArray.concat(MagicArray, toolsArray, battleArray, dressArray, PlaceArray, FacilitiesArray);
 
 var item = {
   name : "test",
@@ -33,8 +33,8 @@ function itemSearch(outputArea, inputReg, omitKanji){
   
   var ansText = inputReg.value + "<ul>";
   
-  for (var i = 0; i < testTargetArray.length; i++){
-    item.name = testTargetArray[i];
+  for (var i = 0; i < targetArray.length; i++){
+    item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
         ansText += "<li>" + item.name;
