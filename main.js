@@ -1,16 +1,9 @@
 
-var TargetArray = [
-  "つむりんママ", 
-  "スライム",
-  "ぶちスライム",
-  "スライムナイト"
-  ];
 
-
-var testToolsArray = testItemArray.concat(testFoodsArray, testMaterialArray);
-var testBattleArray = testSkillArray.concat(testSpecialArray, testChanseArray);
-var testDressArray = testArmsArray.concat(testAccessoryArray);
-var testTargetArray = testMonsterArray.concat(testMagicArray, testToolsArray, testBattleArray, testDressArray, testPlaceArray, testfacilitiesArray);
+var toolsArray = ItemArray.concat(FoodsArray, MaterialArray);
+var battleArray = SkillArray.concat(SpecialArray, ChanseArray);
+var dressArray = ArmsArray.concat(AccessoryArray);
+var targetArray = MonsterArray.concat(MagicArray, toolsArray, battleArray, dressArray, PlaceArray, FacilitiesArray);
 
 var item = {
   name : "test",
@@ -25,21 +18,33 @@ var item = {
   }
 };
 
+function outputUL(outputArea, list){
+  var newUL = document.createElement("ul");
+  newUL.setAttribute("id", outputArea.id);
+  for (var i = 0; i < list.length; i++){
+    var li = document.createElement("li");
+    li.textContent = list[i];
+    newUL.appendChild(li);
+  }
+  document.body.replaceChild(newUL, outputArea);
+}
+
 function itemSearch(outputArea, inputReg, omitKanji){
   window.alert(inputReg.value);
   window.alert(omitKanji);
   if (!inputReg.value){return;}
+  //outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
+
   re = new RegExp(inputReg.value);
-  
-  var ansText = inputReg.value + "<ul>";
-  
-  for (var i = 0; i < testTargetArray.length; i++){
-    item.name = testTargetArray[i];
+  var results = [];
+
+  for (var i = 0; i < targetArray.length; i++){
+    item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
-        ansText += "<li>" + item.name;
+        results.push(item.name);
       }
     }
   }
-  outputArea.innerHTML = "</ul>" + ansText;
+  outputUL(outputArea, results);
 }
