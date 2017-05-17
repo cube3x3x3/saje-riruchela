@@ -31,10 +31,7 @@ function outputUL(outputArea, list){
   outputArea.appendChild(newUL);
 }
 
-var _targetArray = [];
-
 function itemSearch(outputArea, inputReg, omitKanji){
-  readitems();
   window.alert(inputReg.value);
   window.alert(omitKanji);
   if (!inputReg.value){return;}
@@ -43,7 +40,7 @@ function itemSearch(outputArea, inputReg, omitKanji){
   re = new RegExp(inputReg.value);
   var results = [];
 
-  for (var i = 0; i < _targetArray.length; i++){
+  for (var i = 0; i < targetArray.length; i++){
     item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
@@ -52,18 +49,4 @@ function itemSearch(outputArea, inputReg, omitKanji){
     }
   }
   outputUL(outputArea, results);
-}
-
-function readitems(_targetArray){
-  var myRequest = new XMLHttpRequest();
-  myRequest.open('GET', 'monsterName.json');
-  myRequest.onload = function(){
-    var myData = this.responseText;
-    console.log(myData);
-    _targetArray = JSON.parse(myData);
-    console.log(_targetArray);
-  };
-  myRequest.send();
-  
-  console.log(myRequest.responseText);
 }
