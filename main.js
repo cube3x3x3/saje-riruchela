@@ -17,34 +17,39 @@ var item = {
     }
   }
 };
-
 function outputUL(outputArea, list){
-  var newUL = document.createElement("ul");
-  newUL.setAttribute("id", outputArea.id);
+  var newUL = document.createElement("UL");
   for (var i = 0; i < list.length; i++){
     var li = document.createElement("li");
     li.textContent = list[i];
     newUL.appendChild(li);
   }
-  document.body.replaceChild(newUL, outputArea);
+  //var liText = "<li>" + list.join("<li>");
+  if (outputArea.hasChildNodes()){
+    outputArea.removeChild(outputArea.lastChild);
+  }
+  outputArea.appendChild(newUL);
 }
 
 function itemSearch(outputArea, inputReg, omitKanji){
   window.alert(inputReg.value);
   window.alert(omitKanji);
   if (!inputReg.value){return;}
-  //outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
 
   re = new RegExp(inputReg.value);
+  
+  //var ansText = inputReg.value + "<ul>";
   var results = [];
-
+  
   for (var i = 0; i < targetArray.length; i++){
     item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
+        //ansText += "<li>" + item.name;
         results.push(item.name);
       }
     }
   }
+  //outputArea.innerHTML = "</ul>" + ansText;
   outputUL(outputArea, results);
 }
