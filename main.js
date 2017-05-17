@@ -17,10 +17,6 @@ var item = {
     }
   }
 };
-function outputUL(outputArea, list){
-  var liText = "<li>" + list.join("<li>");
-  outputArea.innerHTML = "<ul>" + liText + "</ul>";
-}
 
 function itemSearch(outputArea, inputReg, omitKanji){
   window.alert(inputReg.value);
@@ -29,18 +25,15 @@ function itemSearch(outputArea, inputReg, omitKanji){
 
   re = new RegExp(inputReg.value);
   
-  //var ansText = inputReg.value + "<ul>";
-  var results = [];
+  var ansText = inputReg.value + "<ul>";
   
   for (var i = 0; i < targetArray.length; i++){
     item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
-        //ansText += "<li>" + item.name;
-        results.push(item.name);
+        ansText += "<li>" + item.name;
       }
     }
   }
-  //outputArea.innerHTML = "</ul>" + ansText;
-  outputUL(outputArea, results);
+  outputArea.innerHTML = "</ul>" + ansText;
 }
