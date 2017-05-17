@@ -20,15 +20,13 @@ var item = {
 
 function outputUL(outputArea, list){
   var newUL = document.createElement("ul");
+  newUL.setAttribute("id", outputArea.id);
   for (var i = 0; i < list.length; i++){
     var li = document.createElement("li");
     li.textContent = list[i];
     newUL.appendChild(li);
   }
-  if (outputArea.hasChildNodes()){
-    outputArea.removeChild(outputArea.lastChild);
-  }
-  outputArea.appendChild(newUL);
+  document.body.replaceChild(newUL, outputArea);
 }
 
 function itemSearch(outputArea, inputReg, omitKanji){
