@@ -18,17 +18,8 @@ var item = {
   }
 };
 function outputUL(outputArea, list){
-  var newUL = document.createElement("UL");
-  for (var i = 0; i < list.length; i++){
-    var li = document.createElement("li");
-    li.textContent = list[i];
-    newUL.appendChild(li);
-  }
-  //var liText = "<li>" + list.join("<li>");
-  if (outputArea.hasChildNodes()){
-    outputArea.removeChild(outputArea.lastChild);
-  }
-  outputArea.appendChild(newUL);
+  var liText = "<li>" + list.join("<li>");
+  outputArea.innerHTML = "<ul>" + liText + "</ul>";
 }
 
 function itemSearch(outputArea, inputReg, omitKanji){
