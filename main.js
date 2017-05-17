@@ -18,33 +18,22 @@ var item = {
   }
 };
 
-function outputUL(outputArea, list){
-  var newUL = document.createElement("ul");
-  newUL.setAttribute("id", outputArea.id);
-  for (var i = 0; i < list.length; i++){
-    var li = document.createElement("li");
-    li.textContent = list[i];
-    newUL.appendChild(li);
-  }
-  document.body.replaceChild(newUL, outputArea);
-}
-
 function itemSearch(outputArea, inputReg, omitKanji){
   window.alert(inputReg.value);
   window.alert(omitKanji);
   if (!inputReg.value){return;}
-  //outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
 
   re = new RegExp(inputReg.value);
-  var results = [];
-
+  
+  var ansText = inputReg.value + "<ul>";
+  
   for (var i = 0; i < targetArray.length; i++){
     item.name = targetArray[i];
     if (re.test(item.name)){
       if(!omitKanji || item.hasHiraKata()){
-        results.push(item.name);
+        ansText += "<li>" + item.name;
       }
     }
   }
-  outputUL(outputArea, results);
+  outputArea.innerHTML = "</ul>" + ansText;
 }
