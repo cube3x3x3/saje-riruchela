@@ -1,10 +1,4 @@
 
-
-var toolsArray = ItemArray.concat(FoodsArray, MaterialArray);
-var battleArray = SkillArray.concat(SpecialArray, ChanseArray);
-var dressArray = ArmsArray.concat(AccessoryArray);
-var targetArray = MonsterArray.concat(MagicArray, toolsArray, battleArray, dressArray, PlaceArray, FacilitiesArray);
-
 var item = {
   name : "test",
   hasHiraKata : function(){
@@ -18,24 +12,55 @@ var item = {
   }
 };
 
-function outputUL(outputArea, list){
+function cleanChildNodes(node){
+  if (node.hasChildNodes()){
+    while (node.firstChild){
+      node.removeChild(node.firstChild);
+    }
+  }
+}
+
+function createUL(list){
   var newUL = document.createElement("ul");
   for (var i = 0; i < list.length; i++){
     var li = document.createElement("li");
     li.textContent = list[i];
     newUL.appendChild(li);
   }
-  if (outputArea.hasChildNodes()){
-    outputArea.removeChild(outputArea.lastChild);
-  }
-  outputArea.appendChild(newUL);
+  return newUL;
+}
+
+function appendHitNames(outputArea, inputReg, omitKanji, jsonNamefile){
+  //Load a search target name file.
+  var request = new XMLHttpRequest();
+  request.open('GET', jsonNamefile);
+  request.onload = function(){
+    //Finish load. start Searching. and Output.
+    var nameArray = JSON.parse(this.responseText);
+    var results = searchHitNames(inputReg, omitKanji, nameArray);
+    var newUL = createUL(results);
+    outputArea.appendChild(newUL);
+  };
+  request.send();
 }
 
 function itemSearch(outputArea, inputReg, omitKanji){
-  window.alert(inputReg.value);
-  window.alert(omitKanji);
+  const prefix = "Data/";
+  const suffix = "Name.json";
+  const namefiles = ["monster", "magic", "arms", "item", "foods", "material", "skill", "special", "chance", "accessory", "place", "facilities"];
+  cleanChildNodes(outputArea);
+  //Not sequential. becouse use XMLHttpRequest.
+  for (var i = 0; i < namefiles.length; i++){
+    var fileName = prefix + namefiles[i] + suffix;
+    // ex. Data/monsterName.json
+    appendHitNames(outputArea, inputReg, omitKanji, fileName);
+  }
+}
+
+function searchHitNames(inputReg, omitKanji, targetArray){
+  //window.alert(inputReg.value);
+  //window.alert(omitKanji);
   if (!inputReg.value){return;}
-  //outputArea.innerHTML = "<p>" + inputReg.value + "</p>";
 
   re = new RegExp(inputReg.value);
   var results = [];
@@ -48,5 +73,5 @@ function itemSearch(outputArea, inputReg, omitKanji){
       }
     }
   }
-  outputUL(outputArea, results);
+  return results;
 }
