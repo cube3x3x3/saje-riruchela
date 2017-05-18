@@ -9,14 +9,14 @@
 </head>
 
 <body>
-  <script src="main.js"></script> 
+  <script src="searching-dqx-names.js"></script> 
   
   <p>文字数は判るが、文字不明ならドット(.)を入れて</p>
   <p>先頭はサーカムフレックス(^), 末尾はドル記号($)</p>
   <p>例えば6文字で5文字目がマなら、「^....マ.$」</p>
   <p>何文字か不明で、も？のなら、「も.の」</p>
   <input id="kanji" type="checkbox" value="1">漢字混じりを除く
-  <input id="mystery"><button onclick="itemSearch(document.getElementById('Answer'), document.getElementById('mystery'), document.getElementById('kanji').checked);">mystery</button>
+  <input id="mystery"><button onclick="searchDqxNames(document.getElementById('Answer'), document.getElementById('mystery'), document.getElementById('kanji').checked);">mystery</button>
   <div id="Answer"></div>
 
 </body>
