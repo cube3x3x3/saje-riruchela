@@ -25,7 +25,7 @@ searchDqxNames.exec = function(outputArea, inputReg, omitKanji, opt_location){
       hasHiraKata : function(){
         // [\u3040-\u309F] hiragana
         // [\u30A0-\u30FF] katakana
-        if (this.name.match(/^[\u3040-\u30FF]+$/)) {
+        if (item.name.match(/^[\u3040-\u30FF]+$/)) {
           return true;
         }else{
           return false;
@@ -50,38 +50,48 @@ searchDqxNames.exec = function(outputArea, inputReg, omitKanji, opt_location){
     return results;
   }
 
-  function appendHitNames(outputArea, inputReg, omitKanji, jsonNamefile){
-    //Load a search target name file.
+  function processFile(url, fCallback, var_args){
+    function xhrSuccess(){
+      this.callback.apply(this, this.arguments);
+    }
+    function xhrError(){
+      console.error(this.statusText);
+    }
     var request = new XMLHttpRequest();
-    request.open('GET', jsonNamefile);
-    request.onload = function(){
-      //Finish load. start Searching. and Output.
-      var nameArray = JSON.parse(this.responseText);
-      var results = searchHitNames(inputReg, omitKanji, nameArray);
-      var newUL = createUL(results);
-      outputArea.appendChild(newUL);
-    };
-    request.send();
+    request.callback = fCallback;
+    request.arguments = Array.prototype.slice.call(arguments, 2);
+    request.onload = xhrSuccess;
+    request.onerror = xhrError;
+    request.open("get", url, true);
+    request.send(null);
   }
-  
+
+  function appendHitNames(outputArea, inputReg, omitKanji){
+    var nameArray = JSON.parse(this.responseText);
+    var results = searchHitNames(inputReg, omitKanji, nameArray);
+    var newUL = createUL(results);
+    outputArea.appendChild(newUL);
+  }
+
+  function answerNames(outputArea, inputReg, omitKanji){
+    var nameFiles = JSON.parse(this.responseText);
+    cleanChildNodes(outputArea);
+    for (var i = 0; i < nameFiles.length; i++){
+      var fileName = location + nameFiles[i];
+      processFile(fileName, appendHitNames, outputArea, inputReg, omitKanji);
+    }
+  }
 
   var location = "Data/";
-  var NAME_FILES = ["monster", "magic", "arms", "item", "foods", "material", "skill", "special", "chance", "accessory", "place", "facilities"];
-  var SUFFIX = "Name.json";
-
   if (opt_location) {
     location = opt_location;
   }
-  //const prefix = "Data/";
-  cleanChildNodes(outputArea);
-  //Not sequential. becouse use XMLHttpRequest.
-  for (var i = 0; i < NAME_FILES.length; i++){
-    var fileName = location + NAME_FILES[i] + SUFFIX;
-    // ex. Data/monsterName.json
-    appendHitNames(outputArea, inputReg, omitKanji, fileName);
-  }
-};
+  var FILE_INDEX = 'data-index.json';
+  processFile(location+FILE_INDEX, answerNames, outputArea, inputReg, omitKanji);
 
+
+};
+window['searchDqxNames'] = searchDqxNames;
 
 
 
